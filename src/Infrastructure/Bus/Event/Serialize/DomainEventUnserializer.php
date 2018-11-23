@@ -28,7 +28,7 @@ final class DomainEventUnserializer
         $eventName  = $parsedEvent['type'];
         $eventClass = $this->eventMapping->for($eventName);
 
-        return new $eventClass(get('id', $parsedEvent), reindex($this->toCamel(), $parsedEvent));
+        return new $eventClass(get('id', $parsedEvent), reindex($this->toCamel(), get('attributes', $parsedEvent, [])));
     }
 
     private function toCamel()
