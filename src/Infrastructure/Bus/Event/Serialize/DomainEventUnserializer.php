@@ -23,6 +23,8 @@ final class DomainEventUnserializer
     {
         $parsedEvent = json_decode($serializedEvent, true);
 
+        $this->ensureHasValidFormat($parsedEvent, $serializedEvent);
+
         $eventName  = $parsedEvent['type'];
         $eventClass = $this->eventMapping->for($eventName);
 
@@ -34,5 +36,12 @@ final class DomainEventUnserializer
         return function ($unused, $key) {
             return snake_to_camel($key);
         };
+    }
+
+    private function ensureHasValidFormat($parsedEvent, string $serializedEvent)
+    {
+        if (!is_array($parsedEvent) || !isset($parsedEvent['type'])) {
+            throw new DomainEventUnserializeError($serializedEvent);
+        }
     }
 }

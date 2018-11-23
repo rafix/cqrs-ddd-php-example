@@ -7,6 +7,7 @@ namespace CodelyTv\Infrastructure\RabbitMQ;
 use AMQPEnvelope;
 use AMQPQueue;
 use CodelyTv\Infrastructure\Bus\Event\DomainEventMapping;
+use CodelyTv\Infrastructure\Bus\Event\Serialize\DomainEventUnserializeError;
 use CodelyTv\Infrastructure\Bus\Event\Serialize\DomainEventUnserializer;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -34,10 +35,14 @@ final class RabbitMQConsumer
             apply($this->consumer, [$envelope->getBody()]);
 
             $this->log('Message consumed', $envelope, $queueName, LogLevel::DEBUG);
+        } catch (DomainEventUnserializeError $error) {
+            $this->logger->warning(
+                'Error unserializing a message, discarding',
+                ['error_message' => $error->originalMessage()]
+            );
         } catch (Exception $exception) {
             $level = $this->hasBeenRedeliveredTooMuch($envelope) ? LogLevel::ERROR : LogLevel::DEBUG;
             $this->log('Message consumption failed', $envelope, $queueName, $level, $exception);
-
             // $this->requeue($envelope, $queue, $exception);
         }
 
