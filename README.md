@@ -1,3 +1,21 @@
+# Consume events
+
+* `cd /Users/javiercane/dev/work/codelytv/examples/cqrs-ddd-php-example/etc`
+* `src/Context/Video/Infrastructure/Symfony/Bundle/DependencyInjection/Resources/video_parameters.yml:video_database_name` -> Edit password
+* `brew install rabbitmq-c`
+* `pecl install amqp`
+    * `Set the path to librabbitmq install prefix [autodetect]` -> `/usr/local/Cellar/rabbitmq-c/0.9.0`
+* `sh start-server.sh` -> Arranca PHP
+* Borrar cache por si
+* `mysql -uroot`
+* `CREATE DATABASE codely_video`
+* USE …
+* Ejecutar databases/video.sql con db codely_video y no video
+* `INSERT INTO user VALUES('ba8a348b-71e4-46ec-b11f-7c590537c72b', 'Codelyber', 0);`
+* Ejecutar demo.http `GET http://localhost:8081/users/ba8a348b-71e4-46ec-b11f-7c590537c72b`
+* `sh consume.sh`
+
+
 <img src="http://codely.tv/wp-content/uploads/2016/05/cropped-logo-codelyTV.png" align="left" width="192px" height="192px"/>
 <img align="left" width="0" height="192px" hspace="10"/>
 
