@@ -1,0 +1,5 @@
+GET http://localhost:8081/status
+
+###
+
+GET http://localhost:8081/users/ba8a348b-71e4-46ec-b11f-7c590537c72b
